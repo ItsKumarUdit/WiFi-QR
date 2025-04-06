@@ -61,6 +61,10 @@
       justify-content: center;
       align-items: center;
     }
+
+    #downloadBtn {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -78,6 +82,7 @@
     <button onclick="generateQR()">Generate QR Code</button>
 
     <div id="qrcode"></div>
+    <button id="downloadBtn" onclick="downloadQR()">Download QR Code</button>
   </div>
 
   <script>
@@ -104,6 +109,25 @@
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
+
+      // Show download button after QR is generated
+      setTimeout(() => {
+        document.getElementById("downloadBtn").style.display = "block";
+      }, 300);
+    }
+
+    function downloadQR() {
+      const canvas = document.querySelector("#qrcode canvas");
+      if (!canvas) {
+        alert("Please generate a QR code first.");
+        return;
+      }
+
+      const image = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = "wifi-qr-code.png";
+      link.click();
     }
   </script>
 
